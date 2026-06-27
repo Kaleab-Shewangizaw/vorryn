@@ -27,7 +27,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return data as T;
 }
 
-function authHeaders() {
+function authHeaders(): Record<string, string> {
   const token = localStorage.getItem("vorryn_token");
   return token ? { Authorization: `Bearer ${token}` } : {};
 }

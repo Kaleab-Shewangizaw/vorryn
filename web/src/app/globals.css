@@ -189,6 +189,98 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: 0 0 8px rgba(249, 115, 22, 0.8);
 }
 
+/* ═══════════════════════════════════════
+   ONBOARDING & AUTH ANIMATIONS
+═══════════════════════════════════════ */
+
+@keyframes letter-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes ash-float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.75;
+  }
+  88% {
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(-110vh) translateX(var(--sway, 20px));
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-44px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(44px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ember-pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.25),
+                0 0 20px rgba(220, 38, 38, 0.1);
+    border-color: rgba(74, 85, 104, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(249, 115, 22, 0.55),
+                0 0 48px rgba(220, 38, 38, 0.28);
+    border-color: rgba(249, 115, 22, 0.9);
+  }
+}
+
+/* Utility classes for the above keyframes */
+
+.letter-char {
+  display: inline-block;
+  opacity: 0;
+  animation: letter-reveal 0.35s ease-out forwards;
+}
+
+.animate-ember-pulse {
+  animation: ember-pulse 2.5s ease-in-out infinite;
+}
+
 /* Custom scrollbar reset */
 ::-webkit-scrollbar {
   width: 4px;

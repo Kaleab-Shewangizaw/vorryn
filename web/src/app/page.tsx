@@ -44,7 +44,7 @@ export default function Home() {
         </div>
 
         <Link
-          href="/dashboard"
+          href="/onboarding"
           className="btn-ember px-12 py-4 text-sm rounded tracking-widest"
         >
           ENTER THE ORDER

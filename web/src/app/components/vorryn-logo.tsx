@@ -24,10 +24,10 @@ export default function VorrynLogo({ className = "", size = 320 }: VorrynLogoPro
           className="w-full h-full object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.98)] drop-shadow-[0_0_20px_rgba(194,65,12,0.3)] select-none pointer-events-none"
         />
         
-        {/* Molten Glow overlay behind the tip of the V */}
+        
        
 
-        {/* Tiny physical ember point directly at the core tip */}
+        
        
       </div>
     </div>
