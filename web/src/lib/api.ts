@@ -1,79 +1,41 @@
-// Thin API client for the Vorryn backend
+import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+// Axios instance — cookies sent automatically (Better Auth session)
+const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
+  withCredentials: true,
+  headers: { "Content-Type": "application/json" },
+});
 
-export interface VorrynUser {
-  _id: string;
-  username: string;
-  email: string;
-  characterName: string;
-  faction: "ashen" | "iron" | "eclipse" | null;
-  characterStage: 1 | 2 | 3 | 4 | 5;
-  hasSeenIntro: boolean;
+export default api;
+
+// ── Types ────────────────────────────────────────────────────────────────────
+
+export interface UserProfile {
+  userId: string;
+  warriorName: string;
+  stage: 1 | 2 | 3 | 4 | 5;
+  totalDefeated: number;
+  joinedAt: string;
 }
 
-export interface AuthResponse {
-  token: string;
-  user: VorrynUser;
-}
-
-async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${BASE_URL}${path}`, {
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    ...options,
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error ?? "Request failed");
-  return data as T;
-}
-
-function authHeaders(): Record<string, string> {
-  const token = localStorage.getItem("vorryn_token");
-  return token ? { Authorization: `Bearer ${token}` } : {};
-}
-
-export const api = {
-  login: (username: string, password: string) =>
-    request<AuthResponse>("/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-    }),
-
-  register: (body: {
-    username: string;
+export interface ProfileResponse {
+  user: {
+    id: string;
     email: string;
-    password: string;
-    characterName?: string;
-    faction?: string;
-  }) =>
-    request<AuthResponse>("/auth/register", {
-      method: "POST",
-      body: JSON.stringify(body),
-    }),
+    name: string;
+  };
+  profile: UserProfile | null;
+}
 
-  me: () =>
-    request<{ user: VorrynUser }>("/auth/me", {
-      headers: authHeaders(),
-    }),
+// ── Profile API helpers ───────────────────────────────────────────────────────
 
-  markIntroSeen: () =>
-    request<{ user: VorrynUser }>("/auth/seen-intro", {
-      method: "PATCH",
-      headers: authHeaders(),
-    }),
+export const profileApi = {
+  getMe: (): Promise<ProfileResponse> =>
+    api.get<ProfileResponse>("/api/profile/me").then((r) => r.data),
+
+  setWarriorName: (warriorName: string): Promise<{ profile: UserProfile }> =>
+    api
+      .patch<{ profile: UserProfile }>("/api/profile/me", { warriorName })
+      .then((r) => r.data),
 };
-
-// Token helpers
-export function saveToken(token: string) {
-  localStorage.setItem("vorryn_token", token);
-}
-
-export function clearToken() {
-  localStorage.removeItem("vorryn_token");
-}
-
-export function getToken() {
-  return typeof window !== "undefined"
-    ? localStorage.getItem("vorryn_token")
-    : null;
-}
