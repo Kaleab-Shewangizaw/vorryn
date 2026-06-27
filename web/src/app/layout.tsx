@@ -1,19 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Cinzel, Cinzel_Decorative, Inter } from "next/font/google";
+import { Cinzel, Cinzel_Decorative, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -28,8 +18,9 @@ const cinzelDecorative = Cinzel_Decorative({
 });
 
 export const metadata: Metadata = {
-  title: "Vorryn - Awaken the Darkness",
-  description: "Onboarding into the ancient order of Vorryn. A dark fantasy RPG experience.",
+  title: "Vorryn — Awaken the Darkness",
+  description:
+    "A dark fantasy warrior tracker. Your character evolves as you forge your path through the ancient order of Vorryn.",
 };
 
 export default function RootLayout({
@@ -40,9 +31,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, cinzel.variable, cinzelDecorative.variable, "font-sans", inter.variable)}
+      className={cn(
+        "h-full antialiased",
+        inter.variable,
+        cinzel.variable,
+        cinzelDecorative.variable
+      )}
     >
-      <body className="min-h-full flex flex-col bg-black text-slate-200 overflow-hidden">{children}</body>
+      <body className="min-h-full flex flex-col bg-black text-slate-200 font-sans">
+        {children}
+      </body>
     </html>
   );
 }
